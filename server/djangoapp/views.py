@@ -1,6 +1,6 @@
 # Uncomment the required imports before adding the code
 
-from django.shortcuts import render
+# from django.shortcuts import render
 # from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 # from django.shortcuts import get_object_or_404, redirect
@@ -73,7 +73,8 @@ def registration(request):
     if not username_exist:
         # Create user in auth_user table
         user = User.objects.create_user(username=username,
-                                        first_name=first_name, last_name=last_name,
+                                        first_name=first_name, 
+                                        last_name=last_name,
                                         password=password, email=email)
         # Login the user and redirect to list page
         login(request, user)
@@ -133,9 +134,10 @@ def add_review(request):
     if (request.user.is_anonymous == False):
         data = json.loads(request.body)
         try:
-            response = post_review(data)
+            # response = post_review(data)
             return JsonResponse({"status": 200})
         except:
-            return JsonResponse({"status": 401, "message": "Error in posting review"})
+            return JsonResponse({"status": 401,
+                                 "message": "Error in posting review"})
     else:
         return JsonResponse({"status": 403, "message": "Unauthorized"})
